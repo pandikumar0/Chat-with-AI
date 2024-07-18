@@ -41,7 +41,7 @@ def get_gemini_response_image(image_prompt, image):             # Gemini respons
 
     
     
-st.set_page_config(page_title = "Q&A Demo")                     # Default Loading style of Page
+st.set_page_config(page_title = "Visual Question Answering System")                     # Default Loading style of Page
 
 gemini_pro, gemini_vision_pro = st.tabs(["Gemini Pro", "Gemini Pro Vision"])
 def main():
