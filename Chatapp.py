@@ -23,20 +23,23 @@ def image_to_byte_array(image):                                 # Systems using 
     return ByteArr
 
 def get_gemini_response_image(image_prompt, image):             # Gemini response on image and image prompt
-    model = genai.GenerativeModel("gemini-pro-vision")
-    response = model.generate_content(
-        glm.Content(
-            parts =[
-                glm.Part(text= image_prompt),
-                glm.Part(
-                    inline_data = glm.Blob(
-                        mime_type = "image/jpeg",
-                        data = image_to_byte_array(image)
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    try:
+        response = model.generate_content(
+            glm.Content(
+                parts =[
+                    glm.Part(text= image_prompt),
+                    glm.Part(
+                        inline_data = glm.Blob(
+                            mime_type = "image/jpeg",
+                            data = image_to_byte_array(image)
+                        )
                     )
-                )
-            ]
+                ]
+            )
         )
-    )
+    except Exception as e:
+        st.write(f"Error: {e}")
     return response
 
     
@@ -77,7 +80,9 @@ def main():
 
                     response.resolve()
 
-                    st.write(response.text)
+                    st.subheader("The response is: ")
+                    for chunk in response:
+                        st.write(chunk.text)
 
 if __name__ == "__main__":
     main()
